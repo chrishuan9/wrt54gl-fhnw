@@ -1,0 +1,25 @@
+#!/bin/sh /etc/rc.common
+# FHNW Logon script
+# Last Modified 2014/03/07
+# author chris.yereztian@students.fhnw.ch
+
+START=99
+
+start(){
+
+# Set time - otherwise the default WRT's time makes problems
+# with a certificate validation in wpa_supplicant
+#date "`cat /etc/dateToSet`"
+#date "`cat /etc/dateToSet.backup`"
+
+echo "Signing into FHNW-Network"
+wpa_supplicant -i eth0.1 -D roboswitch -c /etc/config/wpa.conf &
+sleep 15
+udhcpc -i eth0.1 &
+
+# sync time with the NTP server and store the local
+# time into a file for reboot use
+/etc/updateDate &
+}
+
+

@@ -1,0 +1,14 @@
+#!/bin/sh
+#
+# Jozef Janitor (c) 2008
+#
+# Sync the actual time and store it in a file to be used after the reboot.
+#
+
+while true; do
+        sleep 3600
+        ntpclient -c 1 -h ntp.ubuntu.com -s
+        date "+%F %R" > /etc/dateToSet
+        sleep 1
+        date "+%F %R" > /etc/dateToSet.backup
+done
